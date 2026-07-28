@@ -2,6 +2,7 @@ import { supabase, Trail, Waypoint } from '@/lib/supabase';
 import ElevationProfile from '@/components/ElevationProfile';
 import TrailMap from '@/components/TrailMapClient';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -65,7 +66,25 @@ export default async function TrailPage({ params }: { params: { slug: string } }
 
   return (
     <main style={{ maxWidth: 880, margin: '0 auto', padding: '0 20px 80px' }}>
-      <header style={{ padding: '40px 0 24px', borderBottom: '1px solid var(--line)' }}>
+      <Link
+        href="/"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          marginTop: 24,
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 600,
+          fontSize: 13,
+          letterSpacing: '0.02em',
+          textTransform: 'uppercase',
+          color: 'var(--stone)',
+          textDecoration: 'none',
+        }}
+      >
+        &larr; All trails
+      </Link>
+      <header style={{ padding: '16px 0 24px', borderBottom: '1px solid var(--line)' }}>
         <div
           style={{
             fontFamily: 'Inter, sans-serif',
@@ -205,7 +224,11 @@ export default async function TrailPage({ params }: { params: { slug: string } }
       {/* Elevation */}
       <section style={{ margin: '36px 0' }}>
         <h2 style={sectionHeading}>The Climb</h2>
-        <ElevationProfile gainFt={trail.elevation_gain_ft} distanceMiles={trail.distance_miles} />
+        <ElevationProfile
+          profile={trail.elevation_profile}
+          gainFt={trail.elevation_gain_ft}
+          distanceMiles={trail.distance_miles}
+        />
       </section>
 
       {/* What to expect */}
