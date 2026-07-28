@@ -29,8 +29,9 @@ export default async function HomePage() {
       </div>
       <h1
         style={{
-          fontFamily: 'Fraunces, serif',
-          fontWeight: 500,
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: 800,
+          letterSpacing: '-0.02em',
           fontSize: 'clamp(2rem, 5vw, 3rem)',
           margin: '0 0 8px',
         }}
@@ -58,7 +59,9 @@ export default async function HomePage() {
             >
               <div
                 style={{
-                  fontFamily: 'Fraunces, serif',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  letterSpacing: '-0.01em',
                   fontSize: 24,
                   color: 'var(--ink)',
                   marginBottom: 4,

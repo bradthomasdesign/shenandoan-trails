@@ -70,8 +70,9 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         </div>
         <h1
           style={{
-            fontFamily: 'Fraunces, serif',
-            fontWeight: 500,
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
             fontSize: 'clamp(2rem, 5vw, 3.2rem)',
             lineHeight: 1.05,
             margin: '0 0 10px',
@@ -83,9 +84,9 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         {trail.subtitle && (
           <p
             style={{
-              fontFamily: 'Fraunces, serif',
-              fontStyle: 'italic',
-              fontSize: 19,
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 500,
+              fontSize: 18,
               color: 'var(--stone)',
               margin: 0,
             }}
@@ -132,7 +133,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
               >
                 {label}
               </div>
-              <div style={{ fontFamily: 'Fraunces, serif', fontSize: 20, fontWeight: 500 }}>{value}</div>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 700 }}>{value}</div>
             </div>
           ))}
       </div>
@@ -204,8 +205,9 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           style={{
             display: 'inline-block',
             marginTop: 20,
-            fontFamily: 'Fraunces, serif',
-            fontSize: 17,
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 600,
+            fontSize: 16,
             color: 'var(--rust)',
             borderBottom: '1px solid var(--rust)',
             paddingBottom: 2,
@@ -219,8 +221,9 @@ export default async function TrailPage({ params }: { params: { slug: string } }
 }
 
 const sectionHeading: React.CSSProperties = {
-  fontFamily: 'Fraunces, serif',
-  fontWeight: 500,
+  fontFamily: 'Inter, sans-serif',
+  fontWeight: 700,
+  letterSpacing: '-0.01em',
   fontSize: 22,
   margin: '0 0 14px',
   color: 'var(--ink)',
