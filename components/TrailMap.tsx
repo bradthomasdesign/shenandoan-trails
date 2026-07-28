@@ -18,6 +18,20 @@ const waypointIcon = new L.DivIcon({
   iconAnchor: [5, 5],
 });
 
+const startIcon = new L.DivIcon({
+  className: '',
+  html: `<div style="width:12px;height:12px;background:#1f2e23;border:2px solid #f5f0e6;box-shadow:0 0 0 1px #1f2e23;"></div>`,
+  iconSize: [12, 12],
+  iconAnchor: [6, 6],
+});
+
+const finishIcon = new L.DivIcon({
+  className: '',
+  html: `<div style="width:12px;height:12px;background:#1f2e23;border:2px solid #f5f0e6;box-shadow:0 0 0 1px #1f2e23;transform:rotate(45deg);"></div>`,
+  iconSize: [12, 12],
+  iconAnchor: [6, 6],
+});
+
 type Props = {
   lat: number;
   lng: number;
@@ -26,6 +40,9 @@ type Props = {
 };
 
 export default function TrailMap({ lat, lng, routeLine, waypoints }: Props) {
+  const start = routeLine && routeLine.length > 1 ? routeLine[0] : undefined;
+  const finish = routeLine && routeLine.length > 1 ? routeLine[routeLine.length - 1] : undefined;
+
   return (
     <MapContainer
       center={[lat, lng]}
@@ -39,6 +56,16 @@ export default function TrailMap({ lat, lng, routeLine, waypoints }: Props) {
       />
       {routeLine && routeLine.length > 1 && (
         <Polyline positions={routeLine} pathOptions={{ color: '#3d5a80', weight: 4, opacity: 0.85 }} />
+      )}
+      {start && (
+        <Marker position={start} icon={startIcon}>
+          <Popup>Start</Popup>
+        </Marker>
+      )}
+      {finish && (
+        <Marker position={finish} icon={finishIcon}>
+          <Popup>Finish</Popup>
+        </Marker>
       )}
       <Marker position={[lat, lng]} icon={trailheadIcon}>
         <Popup>Trailhead</Popup>
