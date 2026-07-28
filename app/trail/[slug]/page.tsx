@@ -264,21 +264,16 @@ export default async function TrailPage({ params }: { params: { slug: string } }
       </div>
 
       {startCoord && (
-        <a
-          href={`https://www.google.com/maps/dir/?api=1&destination=${startCoord[0]},${startCoord[1]}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-block',
-            marginBottom: 24,
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
-            fontWeight: 600,
-            fontSize: 14,
-            color: 'var(--accent)',
-          }}
-        >
-          Directions to the trailhead &rarr;
-        </a>
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0 24px' }}>
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${startCoord[0]},${startCoord[1]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
+            Directions to the trailhead &rarr;
+          </a>
+        </div>
       )}
 
       {/* Elevation */}
