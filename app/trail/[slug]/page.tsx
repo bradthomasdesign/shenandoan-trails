@@ -167,6 +167,34 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           ))}
       </div>
 
+      {/* Character chips — quick-scan attributes, editorial pill style */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, margin: '20px 0 0' }}>
+        {[
+          trail.fee_required ? 'Fee required' : null,
+          trail.dog_policy ? (trail.dog_policy.toLowerCase().includes('not') ? 'Dogs not allowed' : 'Dogs on leash') : null,
+          ...(trail.tags || []),
+        ]
+          .filter((v): v is string => Boolean(v))
+          .map((tag) => (
+            <span
+              key={tag}
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 11,
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                color: 'var(--ink)',
+                border: '1px solid var(--line)',
+                borderRadius: 3,
+                padding: '6px 10px',
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+      </div>
+
       {trail.summary && (
         <p
           style={{

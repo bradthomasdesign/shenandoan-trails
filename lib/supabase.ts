@@ -32,6 +32,7 @@ export type Trail = {
   geojson: any;
   elevation_profile: any;
   hero_image_url: string | null;
+  tags: string[] | null;
 };
 
 export type Waypoint = {
