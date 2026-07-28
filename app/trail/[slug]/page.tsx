@@ -56,6 +56,13 @@ export default async function TrailPage({ params }: { params: { slug: string } }
     ? trail.geojson.coordinates.map((c: [number, number]) => [c[1], c[0]])
     : undefined;
 
+  const startCoord: [number, number] | undefined =
+    routeLine && routeLine.length > 0
+      ? routeLine[0]
+      : trail.trailhead_lat && trail.trailhead_lng
+      ? [trail.trailhead_lat, trail.trailhead_lng]
+      : undefined;
+
   return (
     <main style={{ maxWidth: 880, margin: '0 auto', padding: '0 20px 80px' }}>
       <header style={{ padding: '40px 0 24px', borderBottom: '1px solid var(--line)' }}>
@@ -162,7 +169,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           border: '1px solid var(--line)',
           borderRadius: 4,
           overflow: 'hidden',
-          margin: '24px 0',
+          margin: '24px 0 12px',
         }}
       >
         {trail.trailhead_lat && trail.trailhead_lng && (
@@ -174,6 +181,26 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           />
         )}
       </div>
+
+      {startCoord && (
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${startCoord[0]},${startCoord[1]}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-block',
+            marginBottom: 24,
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 600,
+            fontSize: 14,
+            color: 'var(--trail-blue)',
+            borderBottom: '1px solid var(--trail-blue)',
+            paddingBottom: 1,
+          }}
+        >
+          Directions to the trailhead &rarr;
+        </a>
+      )}
 
       {/* Elevation */}
       <section style={{ margin: '36px 0' }}>
