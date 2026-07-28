@@ -1,6 +1,7 @@
 import { supabase, Trail, Waypoint } from '@/lib/supabase';
 import ElevationProfile from '@/components/ElevationProfile';
 import TrailMap from '@/components/TrailMapClient';
+import { getForecast, forecastIcon } from '@/lib/weather';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
@@ -59,6 +60,9 @@ export default async function TrailPage({ params }: { params: { slug: string } }
   const result = await getTrail(params.slug);
   if (!result) notFound();
   const { trail, waypoints } = result;
+
+  const forecast =
+    trail.trailhead_lat && trail.trailhead_lng ? await getForecast(trail.trailhead_lat, trail.trailhead_lng) : null;
 
   const routeLine: [number, number][] | undefined = trail.geojson?.coordinates
     ? trail.geojson.coordinates.map((c: [number, number]) => [c[1], c[0]])
@@ -240,6 +244,49 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         </p>
       )}
 
+      {/* Weather — live NWS forecast for the trailhead coordinates */}
+      {forecast && forecast.length > 0 && (
+        <section style={{ margin: '28px 0' }}>
+          <h2 style={sectionHeading}>Weather at the Trailhead</h2>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${forecast.length}, 1fr)`,
+              gap: 1,
+              background: 'var(--line)',
+              border: '1px solid var(--line)',
+              borderRadius: 12,
+              boxShadow: 'var(--shadow-sm)',
+              overflow: 'hidden',
+            }}
+          >
+            {forecast.map((period) => (
+              <div key={period.name} style={{ background: 'var(--surface)', padding: '16px 14px' }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    color: 'var(--muted)',
+                    marginBottom: 6,
+                  }}
+                >
+                  {period.name}
+                </div>
+                <div style={{ fontSize: 24, marginBottom: 4 }}>{forecastIcon(period.shortForecast)}</div>
+                <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 18, fontWeight: 700 }}>
+                  {period.temperature}°{period.temperatureUnit}
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>{period.shortForecast}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
+            From the National Weather Service, for the trailhead coordinates — conditions can differ at elevation.
+          </div>
+        </section>
+      )}
+
       {/* Map */}
       <div
         style={{
@@ -262,14 +309,25 @@ export default async function TrailPage({ params }: { params: { slug: string } }
       </div>
 
       {startCoord && (
-        <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0 24px' }}>
+        <div className="btn-row" style={{ margin: '20px 0 24px' }}>
           <a
             href={`https://www.google.com/maps/dir/?api=1&destination=${startCoord[0]},${startCoord[1]}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary"
           >
-            Directions to the trailhead
+            Directions (Google Maps)
+          </a>
+          <a
+            href={`https://maps.apple.com/?daddr=${startCoord[0]},${startCoord[1]}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+          >
+            Apple Maps
+          </a>
+          <a href={`/trail/${trail.slug}/gpx`} className="btn-secondary">
+            Download GPX
           </a>
         </div>
       )}
