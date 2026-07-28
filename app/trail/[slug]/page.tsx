@@ -130,12 +130,11 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         )}
       </header>
 
-      {/* Stat strip — a real card, not a hairline grid */}
+      {/* Stat strip — grid dividers via gap, not borders (so a lone last
+          item on mobile doesn't stretch full-width with a stray edge) */}
       <div
+        className="stat-grid"
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          background: 'var(--surface)',
           border: '1px solid var(--line)',
           borderRadius: 12,
           boxShadow: 'var(--shadow-sm)',
@@ -158,9 +157,8 @@ export default async function TrailPage({ params }: { params: { slug: string } }
             <div
               key={label as string}
               style={{
-                flex: '1 1 120px',
+                background: 'var(--surface)',
                 padding: '18px 16px',
-                borderRight: '1px solid var(--line)',
               }}
             >
               <div
@@ -271,7 +269,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
             rel="noopener noreferrer"
             className="btn-primary"
           >
-            Directions to the trailhead &rarr;
+            Directions to the trailhead
           </a>
         </div>
       )}
