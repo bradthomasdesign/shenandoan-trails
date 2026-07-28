@@ -28,15 +28,16 @@ async function getTrails(): Promise<Trail[]> {
 }
 
 // A quiet route-shape thumbnail traced from the trail's real geometry —
-// no photo needed, and it's honest to the actual path instead of decorative.
+// no photo needed, framed as a small map panel (tinted ground + start
+// marker) so it reads as a route, not a stray line.
 function RouteThumbnail({ geojson }: { geojson: any }) {
   const coords: [number, number][] | undefined = geojson?.coordinates;
   const W = 100;
-  const H = 56;
-  const PAD = 6;
+  const H = 64;
+  const PAD = 10;
 
   if (!coords || coords.length < 2) {
-    return <div style={{ width: '100%', height: H }} />;
+    return <div style={{ width: '100%', height: H, borderRadius: 10, background: 'var(--accent-soft)' }} />;
   }
 
   const lngs = coords.map((c) => c[0]);
@@ -58,11 +59,15 @@ function RouteThumbnail({ geojson }: { geojson: any }) {
   });
 
   const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ');
+  const [startX, startY] = points[0];
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <path d={path} fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
+    <div style={{ background: 'var(--accent-soft)', borderRadius: 10 }}>
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" height={H} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path d={path} fill="none" stroke="var(--accent)" strokeWidth="2.25" strokeLinejoin="round" strokeLinecap="round" />
+        <circle cx={startX} cy={startY} r="3" fill="var(--accent)" stroke="#ffffff" strokeWidth="1.25" />
+      </svg>
+    </div>
   );
 }
 

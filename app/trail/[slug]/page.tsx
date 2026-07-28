@@ -216,12 +216,11 @@ export default async function TrailPage({ params }: { params: { slug: string } }
               style={{
                 fontFamily: 'Plus Jakarta Sans, sans-serif',
                 fontSize: 13,
-                fontWeight: 500,
+                fontWeight: 600,
                 color: 'var(--ink)',
-                background: 'var(--bg)',
-                border: '1px solid var(--line)',
+                background: '#eae8e1',
                 borderRadius: 999,
-                padding: '6px 12px',
+                padding: '7px 14px',
               }}
             >
               {tag}
@@ -362,27 +361,22 @@ const sectionHeading: React.CSSProperties = {
 
 function Field({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        padding: '14px 0',
-        borderBottom: last ? 'none' : '1px solid var(--line)',
-        gap: 20,
-      }}
-    >
+    <div className="field-row" style={{ borderBottom: last ? 'none' : '1px solid var(--line)' }}>
       <dt
+        className="field-label"
         style={{
-          flex: '0 0 140px',
           fontSize: 12,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
           color: 'var(--muted)',
-          paddingTop: 2,
+          margin: 0,
         }}
       >
         {label}
       </dt>
-      <dd style={{ margin: 0, fontSize: 15, lineHeight: 1.5 }}>{value}</dd>
+      <dd className="field-value" style={{ margin: 0, fontSize: 15, lineHeight: 1.5 }}>
+        {value}
+      </dd>
     </div>
   );
 }
