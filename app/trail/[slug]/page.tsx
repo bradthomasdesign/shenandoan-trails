@@ -4,7 +4,6 @@ import TrailMap from '@/components/TrailMapClient';
 import { getForecast } from '@/lib/weather';
 import WeatherIcon, { weatherKind } from '@/components/WeatherIcon';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
@@ -78,24 +77,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
 
   return (
     <main style={{ maxWidth: 880, margin: '0 auto', padding: '0 20px 80px' }}>
-      <Link
-        href="/"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 6,
-          marginTop: 24,
-          fontFamily: 'Plus Jakarta Sans, sans-serif',
-          fontWeight: 600,
-          fontSize: 13,
-          letterSpacing: '0.01em',
-          color: 'var(--muted)',
-          textDecoration: 'none',
-        }}
-      >
-        &larr; All trails
-      </Link>
-      <header style={{ padding: '16px 0 24px' }}>
+      <header style={{ padding: '24px 0 24px' }}>
         <div
           style={{
             fontFamily: 'Plus Jakarta Sans, sans-serif',
@@ -314,6 +296,8 @@ export default async function TrailPage({ params }: { params: { slug: string } }
                   padding: '16px 14px',
                   display: 'flex',
                   flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
                 }}
               >
                 <div
@@ -326,12 +310,13 @@ export default async function TrailPage({ params }: { params: { slug: string } }
                     minHeight: '2.6em',
                     display: 'flex',
                     alignItems: 'flex-start',
+                    justifyContent: 'center',
                   }}
                 >
                   {period.name}
                 </div>
                 <div style={{ color: 'var(--accent)', margin: '4px 0 6px' }}>
-                  <WeatherIcon kind={weatherKind(period.shortForecast)} />
+                  <WeatherIcon kind={weatherKind(period.shortForecast)} size={51} />
                 </div>
                 <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 18, fontWeight: 700 }}>
                   {period.temperature}°{period.temperatureUnit}
