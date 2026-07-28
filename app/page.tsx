@@ -1,6 +1,8 @@
 import { supabase, Trail } from '@/lib/supabase';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 async function getTrails(): Promise<Trail[]> {
   const { data } = await supabase
     .from('trails')

@@ -3,6 +3,8 @@ import ElevationProfile from '@/components/ElevationProfile';
 import TrailMap from '@/components/TrailMapClient';
 import { notFound } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 const DIFFICULTY_LABEL: Record<string, string> = {
   easy: 'Easy',
   moderate: 'Moderate',
