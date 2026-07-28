@@ -4,6 +4,7 @@ import TrailMap from '@/components/TrailMapClient';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
 
 const DIFFICULTY_LABEL: Record<string, string> = {
   easy: 'Easy',
