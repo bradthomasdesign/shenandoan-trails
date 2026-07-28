@@ -102,16 +102,16 @@ export default function ElevationProfile({ profile, gainFt, distanceMiles }: Pro
       >
         <defs>
           <linearGradient id="ridgeFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#3d5a80" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#3d5a80" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="#1f7a4a" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#1f7a4a" stopOpacity="0.02" />
           </linearGradient>
         </defs>
         <path d={`${path} L${VIEW_W},${VIEW_H} L0,${VIEW_H} Z`} fill="url(#ridgeFill)" />
-        <path d={path} fill="none" stroke="#3d5a80" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={path} fill="none" stroke="#1f7a4a" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
         {hoverPoint && (
           <>
-            <line x1={hoverPoint.x} y1={TOP_PAD} x2={hoverPoint.x} y2={BOTTOM} stroke="#7a7568" strokeWidth="1" strokeDasharray="3,3" />
-            <circle cx={hoverPoint.x} cy={hoverPoint.y} r="4" fill="#3d5a80" stroke="#f5f0e6" strokeWidth="1.5" />
+            <line x1={hoverPoint.x} y1={TOP_PAD} x2={hoverPoint.x} y2={BOTTOM} stroke="#c8c7c1" strokeWidth="1" strokeDasharray="3,3" />
+            <circle cx={hoverPoint.x} cy={hoverPoint.y} r="4" fill="#1f7a4a" stroke="#ffffff" strokeWidth="1.5" />
           </>
         )}
       </svg>
@@ -123,16 +123,16 @@ export default function ElevationProfile({ profile, gainFt, distanceMiles }: Pro
             top: 4,
             left: `${tooltipLeftPct}%`,
             transform: `translateX(${tooltipLeftPct > 70 ? '-105%' : tooltipLeftPct < 15 ? '2%' : '-50%'})`,
-            background: 'var(--parchment)',
+            background: 'var(--surface)',
             border: '1px solid var(--line)',
-            borderRadius: 4,
+            borderRadius: 8,
             padding: '8px 10px',
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
             fontSize: 12,
             color: 'var(--ink)',
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
-            boxShadow: '0 2px 6px rgba(31,46,35,0.12)',
+            boxShadow: 'var(--shadow-md)',
           }}
         >
           <div>Distance: {hoverPoint.d.toFixed(1)} mi</div>
@@ -150,8 +150,8 @@ export default function ElevationProfile({ profile, gainFt, distanceMiles }: Pro
           justifyContent: 'space-between',
           marginTop: 6,
           fontSize: 12,
-          color: 'var(--stone)',
-          fontFamily: 'Inter, sans-serif',
+          color: 'var(--muted)',
+          fontFamily: 'Plus Jakarta Sans, sans-serif',
           letterSpacing: '0.02em',
           textTransform: 'uppercase',
         }}

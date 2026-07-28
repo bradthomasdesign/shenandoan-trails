@@ -6,28 +6,28 @@ import { Waypoint } from '@/lib/supabase';
 
 const trailheadIcon = new L.DivIcon({
   className: '',
-  html: `<div style="width:14px;height:14px;border-radius:50%;background:#b5573a;border:2px solid #f5f0e6;box-shadow:0 0 0 1px #1f2e23;"></div>`,
+  html: `<div style="width:14px;height:14px;border-radius:50%;background:#16181b;border:2px solid #ffffff;box-shadow:0 1px 3px rgba(22,24,27,0.4);"></div>`,
   iconSize: [14, 14],
   iconAnchor: [7, 7],
 });
 
 const waypointIcon = new L.DivIcon({
   className: '',
-  html: `<div style="width:10px;height:10px;border-radius:50%;background:#3d5a80;border:2px solid #f5f0e6;"></div>`,
+  html: `<div style="width:10px;height:10px;border-radius:50%;background:#1f7a4a;border:2px solid #ffffff;"></div>`,
   iconSize: [10, 10],
   iconAnchor: [5, 5],
 });
 
 const startIcon = new L.DivIcon({
   className: '',
-  html: `<div style="width:12px;height:12px;background:#1f2e23;border:2px solid #f5f0e6;box-shadow:0 0 0 1px #1f2e23;"></div>`,
+  html: `<div style="width:12px;height:12px;background:#1f7a4a;border:2px solid #ffffff;box-shadow:0 1px 3px rgba(22,24,27,0.35);"></div>`,
   iconSize: [12, 12],
   iconAnchor: [6, 6],
 });
 
 const finishIcon = new L.DivIcon({
   className: '',
-  html: `<div style="width:12px;height:12px;background:#1f2e23;border:2px solid #f5f0e6;box-shadow:0 0 0 1px #1f2e23;transform:rotate(45deg);"></div>`,
+  html: `<div style="width:12px;height:12px;background:#16181b;border:2px solid #ffffff;box-shadow:0 1px 3px rgba(22,24,27,0.35);transform:rotate(45deg);"></div>`,
   iconSize: [12, 12],
   iconAnchor: [6, 6],
 });
@@ -55,7 +55,7 @@ export default function TrailMap({ lat, lng, routeLine, waypoints }: Props) {
         url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
       />
       {routeLine && routeLine.length > 1 && (
-        <Polyline positions={routeLine} pathOptions={{ color: '#3d5a80', weight: 4, opacity: 0.85 }} />
+        <Polyline positions={routeLine} pathOptions={{ color: '#1f7a4a', weight: 4, opacity: 0.9 }} />
       )}
       {start && (
         <Marker position={start} icon={startIcon}>

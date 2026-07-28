@@ -14,6 +14,13 @@ const DIFFICULTY_LABEL: Record<string, string> = {
   strenuous: 'Very Strenuous',
 };
 
+const DIFFICULTY_COLOR: Record<string, string> = {
+  easy: 'var(--diff-easy)',
+  moderate: 'var(--diff-moderate)',
+  hard: 'var(--diff-hard)',
+  strenuous: 'var(--diff-strenuous)',
+};
+
 const ROUTE_LABEL: Record<string, string> = {
   out_and_back: 'Out & back',
   loop: 'Loop',
@@ -73,25 +80,23 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           alignItems: 'center',
           gap: 6,
           marginTop: 24,
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'Plus Jakarta Sans, sans-serif',
           fontWeight: 600,
           fontSize: 13,
-          letterSpacing: '0.02em',
-          textTransform: 'uppercase',
-          color: 'var(--stone)',
+          letterSpacing: '0.01em',
+          color: 'var(--muted)',
           textDecoration: 'none',
         }}
       >
         &larr; All trails
       </Link>
-      <header style={{ padding: '16px 0 24px', borderBottom: '1px solid var(--line)' }}>
+      <header style={{ padding: '16px 0 24px' }}>
         <div
           style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 12,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: 'var(--stone)',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
+            fontSize: 13,
+            fontWeight: 600,
+            color: 'var(--accent)',
             marginBottom: 10,
           }}
         >
@@ -99,7 +104,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         </div>
         <h1
           style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
             fontWeight: 800,
             letterSpacing: '-0.02em',
             fontSize: 'clamp(2rem, 5vw, 3.2rem)',
@@ -113,10 +118,10 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         {trail.subtitle && (
           <p
             style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'Plus Jakarta Sans, sans-serif',
               fontWeight: 500,
               fontSize: 18,
-              color: 'var(--stone)',
+              color: 'var(--muted)',
               margin: 0,
             }}
           >
@@ -125,26 +130,33 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         )}
       </header>
 
-      {/* Stat strip — topo-legend style, not a card grid */}
+      {/* Stat strip — a real card, not a hairline grid */}
       <div
         style={{
           display: 'flex',
           flexWrap: 'wrap',
-          gap: '0',
-          borderBottom: '1px solid var(--line)',
+          background: 'var(--surface)',
+          border: '1px solid var(--line)',
+          borderRadius: 12,
+          boxShadow: 'var(--shadow-sm)',
+          overflow: 'hidden',
         }}
       >
         {[
-          ['Distance', trail.distance_miles ? `${trail.distance_miles} mi` : null],
-          ['Elevation gain', trail.elevation_gain_ft ? `${trail.elevation_gain_ft.toLocaleString()} ft` : null],
-          ['Difficulty', trail.difficulty ? DIFFICULTY_LABEL[trail.difficulty] : null],
-          ['Route', trail.route_type ? ROUTE_LABEL[trail.route_type] : null],
-          ['Time', formatTime(trail.est_time_minutes)],
+          ['Distance', trail.distance_miles ? `${trail.distance_miles} mi` : null, null],
+          ['Elevation gain', trail.elevation_gain_ft ? `${trail.elevation_gain_ft.toLocaleString()} ft` : null, null],
+          [
+            'Difficulty',
+            trail.difficulty ? DIFFICULTY_LABEL[trail.difficulty] : null,
+            trail.difficulty ? DIFFICULTY_COLOR[trail.difficulty] : null,
+          ],
+          ['Route', trail.route_type ? ROUTE_LABEL[trail.route_type] : null, null],
+          ['Time', formatTime(trail.est_time_minutes), null],
         ]
           .filter(([, v]) => v)
-          .map(([label, value]) => (
+          .map(([label, value, dotColor]) => (
             <div
-              key={label}
+              key={label as string}
               style={{
                 flex: '1 1 120px',
                 padding: '18px 16px',
@@ -156,18 +168,41 @@ export default async function TrailPage({ params }: { params: { slug: string } }
                   fontSize: 11,
                   textTransform: 'uppercase',
                   letterSpacing: '0.06em',
-                  color: 'var(--stone)',
+                  color: 'var(--muted)',
                   marginBottom: 4,
                 }}
               >
                 {label}
               </div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 700 }}>{value}</div>
+              <div
+                style={{
+                  fontFamily: 'Plus Jakarta Sans, sans-serif',
+                  fontSize: 20,
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                {dotColor && (
+                  <span
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: '50%',
+                      background: dotColor as string,
+                      display: 'inline-block',
+                      flexShrink: 0,
+                    }}
+                  />
+                )}
+                {value}
+              </div>
             </div>
           ))}
       </div>
 
-      {/* Character chips — quick-scan attributes, editorial pill style */}
+      {/* Character chips — quiet pill style */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, margin: '20px 0 0' }}>
         {[
           trail.fee_required ? 'Fee required' : null,
@@ -179,15 +214,14 @@ export default async function TrailPage({ params }: { params: { slug: string } }
             <span
               key={tag}
               style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontSize: 13,
+                fontWeight: 500,
                 color: 'var(--ink)',
+                background: 'var(--bg)',
                 border: '1px solid var(--line)',
-                borderRadius: 3,
-                padding: '6px 10px',
+                borderRadius: 999,
+                padding: '6px 12px',
               }}
             >
               {tag}
@@ -214,7 +248,8 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         style={{
           height: 420,
           border: '1px solid var(--line)',
-          borderRadius: 4,
+          borderRadius: 12,
+          boxShadow: 'var(--shadow-sm)',
           overflow: 'hidden',
           margin: '24px 0 12px',
         }}
@@ -237,12 +272,10 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           style={{
             display: 'inline-block',
             marginBottom: 24,
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
             fontWeight: 600,
             fontSize: 14,
-            color: 'var(--trail-blue)',
-            borderBottom: '1px solid var(--trail-blue)',
-            paddingBottom: 1,
+            color: 'var(--accent)',
           }}
         >
           Directions to the trailhead &rarr;
@@ -252,17 +285,36 @@ export default async function TrailPage({ params }: { params: { slug: string } }
       {/* Elevation */}
       <section style={{ margin: '36px 0' }}>
         <h2 style={sectionHeading}>The Climb</h2>
-        <ElevationProfile
-          profile={trail.elevation_profile}
-          gainFt={trail.elevation_gain_ft}
-          distanceMiles={trail.distance_miles}
-        />
+        <div
+          style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
+            borderRadius: 12,
+            boxShadow: 'var(--shadow-sm)',
+            padding: '20px 16px 16px',
+          }}
+        >
+          <ElevationProfile
+            profile={trail.elevation_profile}
+            gainFt={trail.elevation_gain_ft}
+            distanceMiles={trail.distance_miles}
+          />
+        </div>
       </section>
 
       {/* What to expect */}
       <section style={{ margin: '36px 0' }}>
         <h2 style={sectionHeading}>What to Expect</h2>
-        <dl style={{ margin: 0 }}>
+        <dl
+          style={{
+            margin: 0,
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
+            borderRadius: 12,
+            boxShadow: 'var(--shadow-sm)',
+            padding: '4px 20px',
+          }}
+        >
           {trail.parking_notes && <Field label="Parking" value={trail.parking_notes} />}
           {trail.fee_required !== null && (
             <Field
@@ -276,7 +328,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           )}
           {trail.water_sources && <Field label="Water" value={trail.water_sources} />}
           {trail.cell_service && <Field label="Cell service" value={trail.cell_service} />}
-          {trail.hazards && <Field label="Hazards" value={trail.hazards} />}
+          {trail.hazards && <Field label="Hazards" value={trail.hazards} last />}
         </dl>
       </section>
 
@@ -286,12 +338,10 @@ export default async function TrailPage({ params }: { params: { slug: string } }
           style={{
             display: 'inline-block',
             marginTop: 20,
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'Plus Jakarta Sans, sans-serif',
             fontWeight: 600,
             fontSize: 16,
-            color: 'var(--rust)',
-            borderBottom: '1px solid var(--rust)',
-            paddingBottom: 2,
+            color: 'var(--accent)',
           }}
         >
           Read the full trail guide on Shenandoan &rarr;
@@ -302,7 +352,7 @@ export default async function TrailPage({ params }: { params: { slug: string } }
 }
 
 const sectionHeading: React.CSSProperties = {
-  fontFamily: 'Inter, sans-serif',
+  fontFamily: 'Plus Jakarta Sans, sans-serif',
   fontWeight: 700,
   letterSpacing: '-0.01em',
   fontSize: 22,
@@ -310,16 +360,23 @@ const sectionHeading: React.CSSProperties = {
   color: 'var(--ink)',
 };
 
-function Field({ label, value }: { label: string; value: string }) {
+function Field({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <div style={{ display: 'flex', padding: '10px 0', borderTop: '1px solid var(--line)', gap: 20 }}>
+    <div
+      style={{
+        display: 'flex',
+        padding: '14px 0',
+        borderBottom: last ? 'none' : '1px solid var(--line)',
+        gap: 20,
+      }}
+    >
       <dt
         style={{
           flex: '0 0 140px',
           fontSize: 12,
           textTransform: 'uppercase',
           letterSpacing: '0.05em',
-          color: 'var(--stone)',
+          color: 'var(--muted)',
           paddingTop: 2,
         }}
       >
