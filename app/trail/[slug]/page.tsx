@@ -1,7 +1,8 @@
 import { supabase, Trail, Waypoint } from '@/lib/supabase';
 import ElevationProfile from '@/components/ElevationProfile';
 import TrailMap from '@/components/TrailMapClient';
-import { getForecast, forecastIcon } from '@/lib/weather';
+import { getForecast } from '@/lib/weather';
+import WeatherIcon, { weatherKind } from '@/components/WeatherIcon';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
@@ -244,49 +245,6 @@ export default async function TrailPage({ params }: { params: { slug: string } }
         </p>
       )}
 
-      {/* Weather — live NWS forecast for the trailhead coordinates */}
-      {forecast && forecast.length > 0 && (
-        <section style={{ margin: '28px 0' }}>
-          <h2 style={sectionHeading}>Weather at the Trailhead</h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(${forecast.length}, 1fr)`,
-              gap: 1,
-              background: 'var(--line)',
-              border: '1px solid var(--line)',
-              borderRadius: 12,
-              boxShadow: 'var(--shadow-sm)',
-              overflow: 'hidden',
-            }}
-          >
-            {forecast.map((period) => (
-              <div key={period.name} style={{ background: 'var(--surface)', padding: '16px 14px' }}>
-                <div
-                  style={{
-                    fontSize: 11,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    color: 'var(--muted)',
-                    marginBottom: 6,
-                  }}
-                >
-                  {period.name}
-                </div>
-                <div style={{ fontSize: 24, marginBottom: 4 }}>{forecastIcon(period.shortForecast)}</div>
-                <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 18, fontWeight: 700 }}>
-                  {period.temperature}°{period.temperatureUnit}
-                </div>
-                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>{period.shortForecast}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
-            From the National Weather Service, for the trailhead coordinates — conditions can differ at elevation.
-          </div>
-        </section>
-      )}
-
       {/* Map */}
       <div
         style={{
@@ -330,6 +288,62 @@ export default async function TrailPage({ params }: { params: { slug: string } }
             Download GPX
           </a>
         </div>
+      )}
+
+      {/* Weather — live NWS forecast for the trailhead coordinates */}
+      {forecast && forecast.length > 0 && (
+        <section style={{ margin: '28px 0' }}>
+          <h2 style={sectionHeading}>Weather at the Trailhead</h2>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: `repeat(${forecast.length}, 1fr)`,
+              gap: 1,
+              background: 'var(--line)',
+              border: '1px solid var(--line)',
+              borderRadius: 12,
+              boxShadow: 'var(--shadow-sm)',
+              overflow: 'hidden',
+            }}
+          >
+            {forecast.map((period) => (
+              <div
+                key={period.name}
+                style={{
+                  background: 'var(--surface)',
+                  padding: '16px 14px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 11,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    color: 'var(--muted)',
+                    lineHeight: 1.3,
+                    minHeight: '2.6em',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  {period.name}
+                </div>
+                <div style={{ color: 'var(--accent)', margin: '4px 0 6px' }}>
+                  <WeatherIcon kind={weatherKind(period.shortForecast)} />
+                </div>
+                <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 18, fontWeight: 700 }}>
+                  {period.temperature}°{period.temperatureUnit}
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--muted)', marginTop: 2 }}>{period.shortForecast}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 8 }}>
+            From the National Weather Service, for the trailhead coordinates — conditions can differ at elevation.
+          </div>
+        </section>
       )}
 
       {/* Elevation */}
